@@ -329,7 +329,7 @@ body {
 
 .texts-item-container {
   /*background-color: #42b983;*/
-  height: 40px;
+  /*height: 40px;*/
   width: 100%;
   margin-top: 10px;
 }
