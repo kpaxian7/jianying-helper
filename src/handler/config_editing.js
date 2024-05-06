@@ -15,7 +15,7 @@ export function applySpecificColorToRawJson(rawJson, fileTexts, targetText, colo
             if (targetTextStartIndexArr != null) {
                 targetTextStartIndexArr.forEach(e => {
 
-                    const parsedContent = JSON.parse(text.json.content);
+                    const parsedContent = JSON.parse(formatString(text.json.content));
                     const stylesArrJson = parsedContent.styles
                     performStylesColorApply(stylesArrJson, text.text.length, e, e + targetText.length, color, strokeColor)
                     text.json.content = JSON.stringify(parsedContent);
@@ -254,8 +254,8 @@ export function assembleTextArrModel(json) {
 
     const textModelArr = []
     texts.forEach((text, index) => {
-        const contentStr = text["content"]
-        const contentJson = JSON.parse(contentStr)
+        let contentStr = text["content"]
+        const contentJson = JSON.parse(formatString(contentStr))
 
         const textStr = contentJson["text"]
         const stylesJson = contentJson["styles"]
@@ -316,4 +316,8 @@ export function assembleSubTexts(textStr, stylesJson) {
         subTextModel["strokeColor"] = strokeColorStr
     }
     return subTextModel
+}
+
+function formatString(toFormatString){
+    return toFormatString.replace(/\s/g, '')
 }
