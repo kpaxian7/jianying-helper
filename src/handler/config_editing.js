@@ -29,10 +29,9 @@ export function applySpecificColorToRawJson(rawJson, fileTexts, targetText, colo
 }
 
 function performStylesColorApply(stylesArrJson, length, start, end, color, strokeColor) {
-
     if (stylesArrJson.length === 1) {
         const stylesItemJson = stylesArrJson[0]
-        if (start === 0 && end === (length - 1)) {
+        if (start === 0 && end === length) {
             stylesItemJson.fill = copyFillWithColor(stylesItemJson.fill, color)
             stylesItemJson.strokes = copyStrokesWithColor(stylesItemJson.strokes, strokeColor)
         } else if (start === 0) {
@@ -45,7 +44,7 @@ function performStylesColorApply(stylesArrJson, length, start, end, color, strok
 
             stylesItemJson.range = [end, length]
             stylesArrJson.splice(0, 0, newStyles)
-        } else if (end === stylesArrJson.length - 1) {
+        } else if (end === length) {
             let newStyles = {
                 ...stylesItemJson
             }
@@ -159,6 +158,8 @@ function findStartCoverStylesIndex(stylesArr, start, end) {
         const phaseStart = styleItem.range[0]
         // 片段结束index
         const phaseEnd = styleItem.range[1]
+        console.log("findStartCoverStylesIndex for, phaseStart = " + phaseStart + ", phaseEnd = " + phaseEnd)
+        console.log("findStartCoverStylesIndex for, start = " + start + ", end = " + end)
 
         // 如果start所以在之内，则认为这是startCoverIndex
         if (start > phaseStart && start < phaseEnd) {
@@ -318,6 +319,6 @@ export function assembleSubTexts(textStr, stylesJson) {
     return subTextModel
 }
 
-function formatString(toFormatString){
+function formatString(toFormatString) {
     return toFormatString.replace(/\s/g, '')
 }
