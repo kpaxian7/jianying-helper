@@ -256,22 +256,27 @@ export function assembleTextArrModel(json) {
     const textModelArr = []
     texts.forEach((text, index) => {
         let contentStr = text["content"]
-        const contentJson = JSON.parse(formatString(contentStr))
+        try {
+            const contentJson = JSON.parse(formatString(contentStr))
 
-        const textStr = contentJson["text"]
-        const stylesJson = contentJson["styles"]
+            const textStr = contentJson["text"]
+            const stylesJson = contentJson["styles"]
 
-        const lineSubTexts = []
-        if (stylesJson !== undefined) {
-            if (stylesJson.length === 1) {
-                lineSubTexts.push(assembleSubTexts(textStr, stylesJson[0]))
-            } else {
-                stylesJson.forEach(e => {
-                    lineSubTexts.push(assembleSubTexts(textStr, e))
-                })
+            const lineSubTexts = []
+            if (stylesJson !== undefined) {
+                if (stylesJson.length === 1) {
+                    lineSubTexts.push(assembleSubTexts(textStr, stylesJson[0]))
+                } else {
+                    stylesJson.forEach(e => {
+                        lineSubTexts.push(assembleSubTexts(textStr, e))
+                    })
+                }
             }
+            textModelArr.push({"subTexts": lineSubTexts, "text": textStr, "index": index, "json": text})
+            // eslint-disable-next-line no-empty
+        } catch (e) {
+
         }
-        textModelArr.push({"subTexts": lineSubTexts, "text": textStr, "index": index, "json": text})
     })
 
     return textModelArr
